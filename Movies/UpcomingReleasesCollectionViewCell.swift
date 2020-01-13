@@ -10,4 +10,5 @@ import UIKit
 
 class UpcomingReleasesCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var poster: UIImageView!
 }

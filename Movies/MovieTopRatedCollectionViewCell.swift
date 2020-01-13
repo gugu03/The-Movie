@@ -10,4 +10,5 @@ import UIKit
 
 class MovieTopRatedCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var poster: UIImageView!
 }
