@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "MovieViewController.cellTapped():MovieViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MovieViewController.cellTapped(movie:):MovieViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in NetworkService.fetchMovieDescription(completion:):NetworkService.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "JSONDecoder().decode(MoviesDescription.self, from: data)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
