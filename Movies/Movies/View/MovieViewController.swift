@@ -48,8 +48,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     func cellTapped(movie: Movie) {
         let movieDescriptionViewController = MovieDescriptionViewController(nibName: "MovieDescriptionViewController", bundle: nil)
-        let descriptionType = Description(title: movie.title, poster: movie.posterPath, voteAverage: movie.voteAverage, overview: movie.overview, releaseDate: movie.releaseDate, backdropPath: movie.backdropPath)
-        movieDescriptionViewController.descriptionType = descriptionType
+        movieDescriptionViewController.id = movie.id
        present(movieDescriptionViewController, animated: true, completion: nil)
         
     }

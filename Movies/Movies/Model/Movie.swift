@@ -8,45 +8,43 @@
 
 import Foundation
 
+protocol CoisaQueTemPoster {
+    var posterPath: String? { get }
+    var posterURL: URL? { get }
+}
+
+extension CoisaQueTemPoster {
+    var posterURL: URL? {
+        if let posterPath = self.posterPath?.replacingOccurrences(of: "^/", with: "", options: .regularExpression) {
+            return URL(string: posterPath, relativeTo: URL(string: "https://image.tmdb.org/t/p/w342/"))
+        }
+        return nil
+    }
+}
+
 struct ListMovie: Decodable {
     let results: [Movie]
 }
 
-struct Movie: Decodable {
+struct Movie: Decodable, CoisaQueTemPoster {
     
-    let posterPath: String
-    let title: String
-    let voteAverage: Float
-    let overview: String
-    let releaseDate: String
-    let backdropPath: String
+    let posterPath: String?
+    let id: Int
     
-    init(posterPath: String, title: String, voteAverage: Float, overview: String, releaseDate: String, backdropPath: String) {
+    init(posterPath: String?, id: Int) {
         self.posterPath = posterPath
-        self.title = title
-        self.voteAverage = voteAverage
-        self.overview = overview
-        self.releaseDate = releaseDate
-        self.backdropPath = backdropPath
+        self.id = id
     }
     
     enum MovieKey: String, CodingKey {
         case posterPath = "poster_path"
-        case title
-        case voteAverage = "vote_average"
-        case overview
-        case releaseDate = "release_date"
-        case backdropPath = "backdrop_path"
+        case id
     }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: MovieKey.self)
-        let posterPath: String = try container.decode(String.self, forKey: .posterPath)
-        let title: String = try container.decode(String.self, forKey: .title)
-        let voteAverage: Float = try container.decode(Float.self, forKey: .voteAverage)
-        let overview: String = try container.decode(String.self, forKey: .overview)
-        let releaseDate: String = try container.decode(String.self, forKey: .releaseDate)
-        let backdropPath: String = try container.decode(String.self, forKey: .backdropPath)
-        self.init(posterPath: posterPath, title: title, voteAverage: voteAverage, overview: overview, releaseDate: releaseDate, backdropPath: backdropPath)
+        let posterPath: String? = try container.decode(String.self, forKey: .posterPath)
+        let id: Int = try container.decode(Int.self, forKey: .id)
+        self.init(posterPath: posterPath, id: id)
     }
 }

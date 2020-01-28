@@ -16,7 +16,7 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    var popularMovies = [Movie]()
+    var listGenreMovie = [Movie]()
     
     func cellConfiguration(name: String) {
         label.text = name
@@ -29,7 +29,7 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
         
         NetworkService().fetchGenreMovies(id: id) {movies in
             guard let movie = movies else { return }
-            self.popularMovies = movie
+            self.listGenreMovie = movie
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
@@ -37,17 +37,16 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = Int(popularMovies.count)
+        let count = Int(listGenreMovie.count)
         return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCollectionViewCell", for: indexPath) as? MovieCollectionViewCell else {
-            return UICollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCollectionViewCell", for: indexPath)
+        if let cell = cell as? MovieCollectionViewCell {
+            let movie = listGenreMovie[indexPath.row]
+            cell.image(url: movie.posterURL)
         }
-        let linkImage = "https://image.tmdb.org/t/p/w342\(popularMovies[indexPath.row].posterPath)"
-        cell.image(link: linkImage)
-    
         return cell
     }
     
@@ -59,7 +58,7 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     if delegate != nil {
-        delegate?.cellTapped(movie: popularMovies[indexPath.row])
+        delegate?.cellTapped(movie: listGenreMovie[indexPath.row])
     }
     }
     

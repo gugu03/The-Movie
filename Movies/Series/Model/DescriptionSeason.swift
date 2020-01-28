@@ -8,10 +8,10 @@
 
 import Foundation
 struct DescriptionSeason: Decodable {
-    let posterPath: String
+    let posterPath: String?
     let name: String
     
-    init(posterPath: String, name: String) {
+    init(posterPath: String?, name: String) {
         self.posterPath = posterPath
         self.name = name
     }
@@ -23,7 +23,7 @@ struct DescriptionSeason: Decodable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: MovieKey.self)
-        let posterPath: String = try container.decode(String.self, forKey: .posterPath)
+        let posterPath: String? = try container.decode(String.self, forKey: .posterPath)
         let name: String = try container.decode(String.self, forKey: .name)
         
         self.init(posterPath: posterPath, name: name)

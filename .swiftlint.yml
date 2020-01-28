@@ -1,3 +1,9 @@
+included:
+- Movies
+
+excluded:
+- Pods
+
 disabled_rules:
   - line_length
   - identifier_name
@@ -14,6 +20,7 @@ disabled_rules:
   - type_body_length
   - function_body_length
   - static_operator
+  - object_literal
 
 opt_in_rules:
   - force_unwrapping
@@ -40,7 +47,6 @@ opt_in_rules:
   - multiline_parameters
   - multiline_parameters_brackets
   - nimble_operator
-  - object_literal
   - operator_usage_whitespace
   - overridden_super_call
   - override_in_extension
@@ -58,10 +64,7 @@ opt_in_rules:
   - untyped_error_in_catch
   - vertical_parameter_alignment_on_call
   - yoda_condition
-
-excluded:
-  - BeagleFrameworkTests
-
+  
 file_length:
   warning: 500
   error: 1200

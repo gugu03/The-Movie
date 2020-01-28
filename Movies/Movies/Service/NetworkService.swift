@@ -25,7 +25,12 @@ class NetworkService {
                     movie = list.results
                     completion(movie)
                 } catch {
-                    print("Parse Error")
+                    if let data = data {
+                        let str = String(data: data, encoding: .utf8)
+                        print("Parse Error3", str as Any, error)
+                    } else {
+                        print("Parse Error3", error)
+                    }
                     completion(nil)
                 }
             }
@@ -49,7 +54,7 @@ class NetworkService {
                     listGenre = list.genres
                     completion(listGenre)
                 } catch {
-                    print("Parse Error")
+                    print("Parse Error2", error)
                     completion(nil)
                 }
             }
@@ -57,9 +62,9 @@ class NetworkService {
         }.resume()
     }
     
-    func fetchMovieDescription(completion: @escaping( _ movies: [MovieDescription]?) -> Void) {
-        let movie = [MovieDescription]()
-        guard let url = URL(string: "https://api.themoviedb.org/3/movie/242?api_key=02a08061d7eead16928726e26cb3203c&language=pt-BR") else {
+    func fetchMovieDescription(id: Int, completion: @escaping( _ movieDescription: MovieDescription?) -> Void) {
+        var movie: MovieDescription?
+        guard let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)?api_key=02a08061d7eead16928726e26cb3203c&language=pt-BR") else {
             return
         }
         URLSession.shared.dataTask(with: url) { data, _, error in
@@ -69,10 +74,12 @@ class NetworkService {
                     guard let data = data else {
                         return
                     }
-                    let list = try JSONDecoder().decode(MovieDescription.self, from: data)
+                    
+                    let descriptionMovie = try JSONDecoder().decode(MovieDescription.self, from: data)
+                    movie = descriptionMovie
                     completion(movie)
                 } catch {
-                    print("Parse Error")
+                    print("Parse Error1", error)
                     completion(nil)
                 }
             }

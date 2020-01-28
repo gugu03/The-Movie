@@ -9,13 +9,16 @@
 import UIKit
 
 class MovieCollectionViewCell: UICollectionViewCell {
+    
  @IBOutlet weak var poster: UIImageView!
     
-    func image(link: String) {
-        guard let poster = poster else {
-            return
+    func image(url: URL?) {
+        if let url = url {
+            poster.sd_setImage(with: url)
+        } else {
+            // fazer algo
         }
-        poster.downloaded(from: link)
+        
     }
     
 }

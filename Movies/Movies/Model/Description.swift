@@ -7,7 +7,22 @@
 //
 
 import Foundation
-struct MovieDescription: Decodable {
+
+protocol Image {
+    var posterPath: String? { get }
+    var posterURL: URL? { get }
+   
+}
+
+extension Image {
+    var posterURL: URL? {
+        if let posterPath = self.posterPath?.replacingOccurrences(of: "^/", with: "", options: .regularExpression) {
+            return URL(string: posterPath, relativeTo: URL(string: "https://image.tmdb.org/t/p/w342/"))
+        }
+        return nil
+    }
+}
+struct MovieDescription: Decodable, Image {
     let adult: Bool
     let backdropPath: String
     let voteAverage: Float
@@ -16,8 +31,9 @@ struct MovieDescription: Decodable {
     let tagline: String
     let title: String
     let homepage: String
+    let posterPath: String?
     
-    init(adult: Bool, backdropPath: String, voteAverage: Float, releaseDate: String, overview: String, tagline: String, title: String, homepage: String) {
+    init(adult: Bool, backdropPath: String, voteAverage: Float, releaseDate: String, overview: String, tagline: String, title: String, homepage: String, posterPath: String?) {
             self.adult = adult
             self.backdropPath = backdropPath
             self.voteAverage = voteAverage
@@ -26,7 +42,7 @@ struct MovieDescription: Decodable {
             self.tagline = tagline
             self.title = title
             self.homepage = homepage
-
+            self.posterPath = posterPath
         }
         
         enum MovieKey: String, CodingKey {
@@ -38,6 +54,7 @@ struct MovieDescription: Decodable {
             case tagline
             case title
             case homepage
+            case posterPath = "poster_path"
         }
         
         init(from decoder: Decoder) throws {
@@ -50,6 +67,7 @@ struct MovieDescription: Decodable {
             let tagline: String = try container.decode(String.self, forKey: .tagline)
             let title: String = try container.decode(String.self, forKey: .title)
             let homepage: String = try container.decode(String.self, forKey: .homepage)
-            self.init(adult: adult, backdropPath: backdropPath, voteAverage: voteAverage, releaseDate: releaseDate, overview: overview, tagline: tagline, title: title, homepage: homepage)
+            let posterPath: String? = try container.decode(String.self, forKey: .posterPath)
+            self.init(adult: adult, backdropPath: backdropPath, voteAverage: voteAverage, releaseDate: releaseDate, overview: overview, tagline: tagline, title: title, homepage: homepage, posterPath: posterPath)
         }
     }

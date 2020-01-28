@@ -19,6 +19,7 @@ extension UIImageView {
                 else { return }
             DispatchQueue.main.async {
                 self.image = image
+
             }
         }.resume()
     }

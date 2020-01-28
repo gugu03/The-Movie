@@ -15,11 +15,11 @@ struct SerieDescription: Decodable {
     let numberEpisodes: Int
     let numberSeasons: Int
     let overview: String
-    let posterPath: String
+    let posterPath: String?
     let seasons: [DescriptionSeason]
     let voteAverage: Float
     
-    init(posterPath: String, name: String, voteAverage: Float, overview: String, backdropPath: String, episodeTime: Int, numberSeasons: Int, homepage: String, numberEpisodes: Int, seasons: [DescriptionSeason] ) {
+    init(posterPath: String?, name: String, voteAverage: Float, overview: String, backdropPath: String, episodeTime: Int, numberSeasons: Int, homepage: String, numberEpisodes: Int, seasons: [DescriptionSeason] ) {
         self.backdropPath = backdropPath
         self.episodeTime = [episodeTime]
         self.homepage = homepage
@@ -47,7 +47,7 @@ struct SerieDescription: Decodable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: MovieKey.self)
-        let posterPath: String = try container.decode(String.self, forKey: .posterPath)
+        let posterPath: String? = try container.decode(String.self, forKey: .posterPath)
         let name: String = try container.decode(String.self, forKey: .name)
         let voteAverage: Float = try container.decode(Float.self, forKey: .voteAverage)
         let overview: String = try container.decode(String.self, forKey: .overview)

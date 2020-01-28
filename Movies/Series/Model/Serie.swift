@@ -12,37 +12,25 @@ struct ListSerie: Decodable {
     let results: [Serie]
 }
 
-struct Serie: Decodable {
+struct Serie: Decodable, CoisaQueTemPoster {
     
-    let posterPath: String
-    let name: String
-    let voteAverage: Float
-    let overview: String
-    let backdropPath: String
+    let posterPath: String?
+    let id: Int
     
-    init(posterPath: String, name: String, voteAverage: Float, overview: String, backdropPath: String) {
+    init(posterPath: String?, id: Int) {
         self.posterPath = posterPath
-        self.name = name
-        self.voteAverage = voteAverage
-        self.overview = overview
-        self.backdropPath = backdropPath
+        self.id = id
     }
     
     enum MovieKey: String, CodingKey {
         case posterPath = "poster_path"
-        case name
-        case voteAverage = "vote_average"
-        case overview
-        case backdropPath = "backdrop_path"
+        case id
     }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: MovieKey.self)
-        let posterPath: String = try container.decode(String.self, forKey: .posterPath)
-        let name: String = try container.decode(String.self, forKey: .name)
-        let voteAverage: Float = try container.decode(Float.self, forKey: .voteAverage)
-        let overview: String = try container.decode(String.self, forKey: .overview)
-        let backdropPath: String = try container.decode(String.self, forKey: .backdropPath)
-        self.init(posterPath: posterPath, name: name, voteAverage: voteAverage, overview: overview, backdropPath: backdropPath)
+        let posterPath: String? = try container.decode(String.self, forKey: .posterPath)
+        let id: Int = try container.decode(Int.self, forKey: .id)
+        self.init(posterPath: posterPath, id: id)
     }
 }

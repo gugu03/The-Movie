@@ -7,63 +7,124 @@
 //
 
 import UIKit
+import SDWebImage
+import Lottie
 
 struct Description {
-    let title: String
-    let poster: String
-    let voteAverage: Float
-    let overview: String
-    let releaseDate: String
-    let backdropPath: String
+    let id: Int
 }
 
 class MovieDescriptionViewController: UIViewController {
-    @IBOutlet weak var titleMovie: UILabel!
     
-    @IBOutlet weak var poster: UIImageView!
-    
+    @IBOutlet weak var imageBackground: UIImageView!
+    @IBOutlet weak var imageCover: UIImageView!
+    @IBOutlet weak var synopsis: UILabel!
+    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var tagline: UILabel!
     @IBOutlet weak var releaseDate: UILabel!
+    @IBOutlet weak var more: UIButton!
+    @IBOutlet weak var evaluation: UILabel!
+    @IBOutlet weak var ageRange: UIImageView!
+    @IBOutlet private var animation: AnimationView!
+    @IBOutlet weak var button: UIButton!
     
-    @IBOutlet weak var voteAverage: UILabel!
-    
-    @IBOutlet weak var overview: UITextView!
-    
-    @IBOutlet weak var posterbackground: UIImageView!
-    
-    var descriptionType: Description?
-    var descriptionmovies = [MovieDescription]()
-    
+    var id: Int?
+    var movieDescription: MovieDescription?
+    var isFavorite = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupDate()
+        setupMovieDescription()
+        configButton()
+        animationFavorites()
     }
     
-    func setupDate() {
-        guard let descriptionType = descriptionType else { return }
-        
-        NetworkService().fetchMovieDescription { movie in
-            guard let movie = movie else { return }
-            self.descriptionmovies = movie
+    func configButton() {
+        more.clipsToBounds = true
+        more.layer.cornerRadius = more.frame.height / 2
+    }
+    
+    func animationFavorites() {
+        animation.play(fromFrame: 0, toFrame: 32)
+    }
+    
+    @IBAction func clickAnimation(_ sender: Any) {
+        if isFavorite {
+            animation.play(fromFrame: 80, toFrame: 110, loopMode: .playOnce) { _ in
+                self.animation.play(fromFrame: 5, toFrame: 32)
+                
+            }
+        } else {
+            animation.play(fromFrame: 33, toFrame: 65)
         }
-        titleMovie.text = descriptionType.title
-        releaseDate.text = ("Lançamento: \(String(describing: convertDateFormater(descriptionType.releaseDate)))")
-        let defaultLink = "https://image.tmdb.org/t/p/w342\(String(describing: descriptionType.poster))"
-        poster.downloaded(from: defaultLink)
-        poster.contentMode = .scaleAspectFit
-        let poster = "https://image.tmdb.org/t/p/w342\(String(describing: descriptionType.backdropPath))"
-        posterbackground.downloaded(from: poster)
-        posterbackground.contentMode = .scaleAspectFill
-        voteAverage.text = ("Avaliação: \(String(descriptionType.voteAverage))")
-        overview.text = descriptionType.overview
+        
+        isFavorite.toggle()
+    }
+    
+    func setupMovieDescription() {
+        movieDescription { movieDescription in
+            guard let movieDescription = self.movieDescription else { return }
+            self.movieDescription = movieDescription
+            DispatchQueue.main.async {
+                self.synopsis.text = self.movieDescription?.overview
+                self.name.text = self.movieDescription?.title
+                self.tagline.text = self.movieDescription?.tagline
+                let fontSize: CGFloat = 20
+                let text = NSMutableAttributedString(string: "Data de Lançamento: ", attributes: [.font: UIFont.systemFont(ofSize: fontSize, weight: .bold)])
+                text.append(NSAttributedString(string: self.convertDateFormater(movieDescription.releaseDate), attributes: [.font: UIFont.systemFont(ofSize: fontSize, weight: .regular)]))
+                self.releaseDate.attributedText = text
+                let imageBackground = "https://image.tmdb.org/t/p/w342\(movieDescription.backdropPath)"
+                self.imageBackground.sd_setImage(with: URL(string: imageBackground))
+                self.imageCover.sd_setImage(with: movieDescription.posterURL)
+                self.starEvaluation(nota: movieDescription.voteAverage)
+                self.ageRange(parentalRating: movieDescription.adult)
+            }
+        }
+    }
+    
+    func ageRange(parentalRating: Bool) {
+        if parentalRating == true {
+            ageRange.image = UIImage(named: "proibido")
+        } else {
+            ageRange.image = UIImage(named: "livre")
+        }
+    }
+    
+    func starEvaluation(nota: Float) {
+        let media = Int(nota / 2)
+        if media <= 1 {
+            evaluation.text = "★☆☆☆☆"
+        } else if media <= 2 {
+            evaluation.text = "★★☆☆☆"
+        } else if media <= 3 {
+            evaluation.text = "★★★☆☆"
+        } else if media <= 4 {
+            evaluation.text = "★★★★☆"
+        } else if media <= 5 {
+            evaluation.text = "★★★★★"
+        } else {
+            evaluation.text = "☆☆☆☆☆"
+        }
+    }
+    
+    func movieDescription(completion: @escaping( _ movieDescription: MovieDescription?) -> Void) {
+        guard let id = id else { return }
+        NetworkService().fetchMovieDescription(id: id) {movieDescription in
+            guard let movieDescription = movieDescription else { return }
+            self.movieDescription = movieDescription
+            completion(movieDescription)
+        }
     }
     
     func convertDateFormater(_ date: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy/MM/dd"
         guard let newDate = dateFormatter.date(from: date) else { return date }
-        dateFormatter.dateFormat = "dd / MM / yyyy"
-        return  dateFormatter.string(from: newDate)
-
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.locale = Locale(identifier: "pt_BR")
+        return  formatter.string(from: newDate)
+        
     }
     
     @IBAction func ClickButton(_ sender: Any) {
