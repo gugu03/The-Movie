@@ -12,12 +12,12 @@ struct ListSerie: Decodable {
     let results: [Serie]
 }
 
-struct Serie: Decodable, CoisaQueTemPoster {
+struct Serie: Decodable, ConvertPosterLink {
     
     let posterPath: String?
-    let id: Int
+    let id: Int?
     
-    init(posterPath: String?, id: Int) {
+    init(posterPath: String?, id: Int?) {
         self.posterPath = posterPath
         self.id = id
     }
@@ -30,7 +30,7 @@ struct Serie: Decodable, CoisaQueTemPoster {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: MovieKey.self)
         let posterPath: String? = try container.decode(String.self, forKey: .posterPath)
-        let id: Int = try container.decode(Int.self, forKey: .id)
+        let id: Int? = try container.decode(Int.self, forKey: .id)
         self.init(posterPath: posterPath, id: id)
     }
 }

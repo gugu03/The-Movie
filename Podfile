@@ -6,7 +6,8 @@ target 'Movies' do
   use_frameworks!
 
   # Pods for Movies
-pod 'SDWebImage', '~> 5.0'
-pod 'lottie-ios'
-
+	pod 'SDWebImage', '~> 5.0'
+	pod 'lottie-ios'
+	pod 'Firebase'
+	pod 'Firebase/Database'
 end

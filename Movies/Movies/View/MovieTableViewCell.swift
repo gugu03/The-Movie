@@ -10,26 +10,22 @@ import UIKit
 
 class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-     weak var delegate: MovieCollectionViewCellDelegate?
+    var movieTableViewCellViewModel: MovieTableViewCellViewModel = MovieTableViewCellViewModel()
+    
+    weak var delegate: MovieCollectionViewCellDelegate?
     
     @IBOutlet weak var label: UILabel!
-    
     @IBOutlet weak var collectionView: UICollectionView!
-    
-    var listGenreMovie = [Movie]()
     
     func cellConfiguration(name: String) {
         label.text = name
     }
     
-    func setupCollectionView(id: Int) {
+    func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(UINib(nibName: "MovieCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "movieCollectionViewCell")
-        
-        NetworkService().fetchGenreMovies(id: id) {movies in
-            guard let movie = movies else { return }
-            self.listGenreMovie = movie
+        movieTableViewCellViewModel.setupTableViewCell {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
@@ -37,15 +33,13 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = Int(listGenreMovie.count)
-        return count
+        return movieTableViewCellViewModel.numberOfMovies()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCollectionViewCell", for: indexPath)
         if let cell = cell as? MovieCollectionViewCell {
-            let movie = listGenreMovie[indexPath.row]
-            cell.image(url: movie.posterURL)
+            cell.image(url: movieTableViewCellViewModel.get(at: indexPath.row))
         }
         return cell
     }
@@ -57,9 +51,9 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    if delegate != nil {
-        delegate?.cellTapped(movie: listGenreMovie[indexPath.row])
-    }
+        if delegate != nil {
+            delegate?.cellTapped(movie: movieTableViewCellViewModel.listGenreMovie[indexPath.row])
+        }
     }
     
 }

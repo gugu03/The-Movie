@@ -28,7 +28,7 @@
                     <constraint firstAttribute="bottom" secondItem="lB7-ld-ecX" secondAttribute="bottom" id="zkB-XU-nUP"/>
                 </constraints>
             </collectionViewCellContentView>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <size key="customSize" width="104" height="123"/>
             <connections>
                 <outlet property="poster" destination="lB7-ld-ecX" id="sDU-dX-gDb"/>

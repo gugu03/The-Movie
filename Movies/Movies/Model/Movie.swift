@@ -8,15 +8,15 @@
 
 import Foundation
 
-protocol CoisaQueTemPoster {
+protocol ConvertPosterLink {
     var posterPath: String? { get }
     var posterURL: URL? { get }
 }
 
-extension CoisaQueTemPoster {
+extension ConvertPosterLink {
     var posterURL: URL? {
         if let posterPath = self.posterPath?.replacingOccurrences(of: "^/", with: "", options: .regularExpression) {
-            return URL(string: posterPath, relativeTo: URL(string: "https://image.tmdb.org/t/p/w342/"))
+            return URL(string: posterPath, relativeTo: URL(string: "https://image.tmdb.org/t/p/original/"))
         }
         return nil
     }
@@ -26,7 +26,8 @@ struct ListMovie: Decodable {
     let results: [Movie]
 }
 
-struct Movie: Decodable, CoisaQueTemPoster {
+struct Movie: Decodable,
+{
     
     let posterPath: String?
     let id: Int

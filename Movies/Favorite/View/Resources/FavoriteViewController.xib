@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FavoriteViewController" customModule="The_Movie" customModuleProvider="target">
+            <connections>
+                <outlet property="favoretoMovieCollectionView" destination="NT1-fi-MB6" id="PTZ-Br-WKD"/>
+                <outlet property="favoritoSeriesCollectionView" destination="wJI-pb-ShD" id="asd-w8-5dF"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="wJI-pb-ShD">
+                    <rect key="frame" x="0.0" y="392.5" width="375" height="274.5"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="274.5" id="sSF-04-qtC"/>
+                    </constraints>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="64g-om-1r7">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filmes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xmt-E5-bWf">
+                    <rect key="frame" x="0.0" y="63" width="375" height="26"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="NT1-fi-MB6">
+                    <rect key="frame" x="0.0" y="90" width="375" height="274.5"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="274.5" id="Nh0-Bp-niv"/>
+                    </constraints>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="5" minimumInteritemSpacing="5" id="a4I-O4-oRR">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Series" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RV3-oQ-dWT">
+                    <rect key="frame" x="0.0" y="365.5" width="375" height="26"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="26" id="fJ5-ve-Bod"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="wJI-pb-ShD" secondAttribute="bottom" id="Oyt-9M-1VU"/>
+                <constraint firstItem="RV3-oQ-dWT" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="TNu-le-wpb"/>
+                <constraint firstItem="wJI-pb-ShD" firstAttribute="top" secondItem="RV3-oQ-dWT" secondAttribute="bottom" constant="1" id="U7q-0N-kmB"/>
+                <constraint firstItem="NT1-fi-MB6" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Us1-ez-zS2"/>
+                <constraint firstItem="RV3-oQ-dWT" firstAttribute="top" secondItem="NT1-fi-MB6" secondAttribute="bottom" constant="1" id="XUJ-G3-vGP"/>
+                <constraint firstItem="xmt-E5-bWf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="fLZ-EL-aEw"/>
+                <constraint firstItem="xmt-E5-bWf" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="iC3-8q-nr1"/>
+                <constraint firstItem="RV3-oQ-dWT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="iEd-oE-NU1"/>
+                <constraint firstItem="NT1-fi-MB6" firstAttribute="top" secondItem="xmt-E5-bWf" secondAttribute="bottom" constant="1" id="mb7-c9-8AX"/>
+                <constraint firstItem="NT1-fi-MB6" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="nOZ-Wp-eg0"/>
+                <constraint firstItem="wJI-pb-ShD" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="qZd-3O-TfH"/>
+                <constraint firstItem="wJI-pb-ShD" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="wcu-zv-9GU"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="138.40000000000001" y="124.58770614692655"/>
+        </view>
+    </objects>
+</document>

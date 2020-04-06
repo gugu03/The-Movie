@@ -10,14 +10,15 @@ import UIKit
 
 class SerieCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var poster: UIImageView!
-       
-       func image(link: String) {
-           guard let poster = poster else {
-               return
-           }
-           poster.downloaded(from: link)
-       }
- 
+    
+   func imageSerie(url: URL?) {
+        if let url = url {
+            poster.sd_setImage(with: url)
+        } else {
+           
+        }
+    }
+    
 }
 protocol SerieCollectionViewCellDelegate: AnyObject {
     func cellTapped(serie: Serie)

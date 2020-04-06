@@ -16,13 +16,11 @@ class MovieCollectionViewCell: UICollectionViewCell {
         if let url = url {
             poster.sd_setImage(with: url)
         } else {
-            // fazer algo
+            
         }
-        
     }
     
 }
-
 protocol MovieCollectionViewCellDelegate: AnyObject {
     func cellTapped(movie: Movie)
 }

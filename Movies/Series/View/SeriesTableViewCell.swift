@@ -11,23 +11,20 @@ import UIKit
 class SeriesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     weak var delegate: SerieCollectionViewCellDelegate?
-    var genreSeries = [Serie]()
-    
-     @IBOutlet weak var label: UILabel!
+    var serieTableViewCellViewModel: SerieTableViewCellViewModel = SerieTableViewCellViewModel()
+    @IBOutlet weak var label: UILabel!
     
     @IBOutlet weak var collectionView: UICollectionView!
     
     func cellConfiguration(name: String) {
         label.text = name
     }
-    func setupCollectionView(id: Int) {
+    func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(UINib(nibName: "SerieCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "serieCollectionViewCell")
         
-        NetworkServiceSeries().fetchGenreSerie(id: id) {serie in
-            guard let serie = serie else { return }
-            self.genreSeries = serie
+        serieTableViewCellViewModel.setupSerieTableViewCell {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
@@ -35,17 +32,14 @@ class SeriesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = Int(genreSeries.count)
-        return count
+        return serieTableViewCellViewModel.numberOfSeries()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "serieCollectionViewCell", for: indexPath) as? SerieCollectionViewCell else {
-                   return UICollectionViewCell()
-               }
-        let linkImage = "https://image.tmdb.org/t/p/w342\(genreSeries[indexPath.row].posterPath)"
-        cell.image(link: linkImage)
-        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "serieCollectionViewCell", for: indexPath)
+        if let cell = cell as? SerieCollectionViewCell {
+            cell.imageSerie(url: serieTableViewCellViewModel.getSerie(at: indexPath.row))
+        }
         return cell
     }
     
@@ -56,9 +50,9 @@ class SeriesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       if delegate != nil {
-           delegate?.cellTapped(serie: genreSeries[indexPath.row])
-       }
-       }
+        if delegate != nil {
+            delegate?.cellTapped(serie: serieTableViewCellViewModel.genreSeries[indexPath.row])
+        }
+    }
     
 }

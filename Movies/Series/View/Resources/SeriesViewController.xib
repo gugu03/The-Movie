@@ -24,7 +24,7 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ec4-1q-WlK" secondAttribute="trailing" id="3fG-Up-k6j"/>
                 <constraint firstItem="ec4-1q-WlK" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="8KF-50-PCY"/>
